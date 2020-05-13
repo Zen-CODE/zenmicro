@@ -11,10 +11,8 @@ class Library:
     is contained entirely in the folder names and structures.
     """
 
-    def __init__(self):
-        # self.path = expanduser("~/Music")
-        # Create a symbolic link to this folder if it does not exist
-        self.path = expanduser("~/Zen/Music")
+    def __init__(self, path):
+        self.path = path
         dirs = [name for name in listdir(self.path) if
                 isdir(join(self.path, name))]
         artists = {}

@@ -7,7 +7,8 @@ class ZenService():
     """
     This class  acts as a generic base for Zen Miroservice instances.
     """
-    def add_routes(self, app, path, service):
+    @staticmethod
+    def add_routes(app, path, service):
         """
         Add the exposed functions of the *obj* object to the *base_url* route.
         """
@@ -24,26 +25,22 @@ class ZenService():
         with open("service/config.json") as f:
             return load(f)
 
-    def run(self):
+    @staticmethod
+    def get_service(service_config):
+        """ Build and return the service object given it's configuration """
+        return Loader.get_class(
+            service_config["module"],
+            service_config["class"])(service_config)
 
+    def run(self):
+        """ Configure, run and return the Flask application """
         app = Flask(__name__)
         config = self.load_config()
-        service = Loader.get_class(config["service"]["module"],
-                                   config["service"]["class"])()
+        service = self.get_service(config["service"])
 
-        self.add_routes(app, config["service"]["path"], service)
+        self.add_routes(app, config["service"]["url_path"], service)
 
         app.run(**config["flask"])
         return app
 
-
-# @app.route('/')
-# def hello_world():
-#     return 'Hello, World!'
-
-
-# @app.route('/list')
-# def list_folder():
-#     contents = str(listdir("/app/Music"))
-#     return f'Hello Music! {contents}'
 app = ZenService().run()
