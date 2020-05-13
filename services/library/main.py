@@ -32,15 +32,15 @@ class ZenService():
             service_config["module"],
             service_config["class"])(service_config)
 
-    def run(self):
-        """ Configure, run and return the Flask application """
+    def build(self):
+        """ Configure, build and return the Flask application """
         app = Flask(__name__)
         config = self.load_config()
-        service = self.get_service(config["service"])
+        service = self.get_service(config)
 
-        self.add_routes(app, config["service"]["url_path"], service)
+        self.add_routes(app, config["url_path"], service)
 
-        app.run(**config["flask"])
         return app
 
-app = ZenService().run()
+
+app = ZenService().build()

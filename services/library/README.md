@@ -10,4 +10,4 @@ To run:
 
 To run with our folder mounted:
 
-    docker run -v ~/Music:/app/Music -p 8001:8001 library/v1
+    docker run -v ~/Music:/home/fruitbat/Music -p 8001:8001 library/v1

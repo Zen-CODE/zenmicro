@@ -1,14 +1,6 @@
 {
-    "flask": {
-        "host": "0.0.0.0",
-        "port": 5001,
-        "debug" : true,
-        "use_reloader": false},
-    "service": {
-        "class": "ZenLibrary",
-        "module": "service.api",
-        "url_path": "library",
-        "library_path": "/home/fruitbat/Music"
-    }
-
+    "class": "ZenLibrary",
+    "module": "service.api",
+    "url_path": "library",
+    "library_path": "/home/fruitbat/Music"
 }
