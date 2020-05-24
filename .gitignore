@@ -1,4 +1,6 @@
 .git/
-core/venv/
+/venv/
 __pycache__
-core/service/
+core/
+compose/venv/
+
