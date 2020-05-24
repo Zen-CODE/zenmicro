@@ -1,0 +1,4 @@
+.git/
+core/venv/
+__pycache__
+core/service/
