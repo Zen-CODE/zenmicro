@@ -3,7 +3,7 @@ COPY . /app
 WORKDIR /app
 
 COPY core /app
-COPY services/library /app/service
+COPY services/library /app
 COPY services/library/service_requirements.txt /app
 
 RUN pip install -r requirements.txt
