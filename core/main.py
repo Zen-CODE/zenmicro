@@ -1,6 +1,7 @@
 from flask import Flask
 from json import load
 from core.loader import Loader
+from zenswagger import ZenSwagger
 
 
 class ZenService():
@@ -39,6 +40,7 @@ class ZenService():
         service = self.get_service(config)
 
         self.add_routes(app, config["url_path"], service)
+        ZenSwagger.init_swagger(app, service)
 
         return app
 
