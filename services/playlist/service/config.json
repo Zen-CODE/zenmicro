@@ -1,0 +1,5 @@
+{
+    "class": "ZenPlaylist",
+    "module": "service.api",
+    "url_path": "playlist"
+}
