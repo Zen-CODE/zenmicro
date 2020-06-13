@@ -4,12 +4,15 @@ This module houses the API interface for the ZenPlaylist object.
 from core.zenapibase import ZenAPIBase  # pylint: disable=import-error
 from flask import request
 from os.path import exists
+from .playlist import Playlist
 
 
 class ZenPlaylist(ZenAPIBase):
     """
     Present an API interface for interaction with the Zenplaylist object.
     """
+    playlist = Playlist()
+
     def __init__(self, service_config):
         super().__init__()
         # self.library = Library(service_config["library_path"])
@@ -46,7 +49,7 @@ class ZenPlaylist(ZenAPIBase):
                         type: integer
 
         """
-        data = self.ctrl.playlist.get_current_info()
+        data = self.playlist.get_current_info()
         return self.resp_from_data(data)
 
     def get_playlist(self):
@@ -76,7 +79,7 @@ class ZenPlaylist(ZenAPIBase):
                         description: The full path to the audio file
                         type: string
         """
-        return self.resp_from_data(self.ctrl.playlist.queue)
+        return self.resp_from_data(self.playlist.queue)
 
     def get_playlist_meta(self):
         """
@@ -124,7 +127,7 @@ class ZenPlaylist(ZenAPIBase):
                         description: The full path to the audio file
                         type: string
         """
-        pl = self.ctrl.playlist
+        pl = self.playlist
         ret, active = pl.queue[:], pl.get_current_info()
         for item in ret:
             item.update(pl.get_info(item["filename"]))
@@ -167,12 +170,10 @@ class ZenPlaylist(ZenAPIBase):
         folder = self.get_request_arg("folder")
         if folder or not exists(folder):
             mode = self.get_request_arg("mode", "add")
-            response = self.safe_call(
-                self.ctrl.playlist.add_files, folder, mode)
-            if mode in ["replace", "insert"]:
-                self.safe_call(self.ctrl.play_index, 0, get_response=False)
-            return response
-
+            self.playlist.add_files(folder, mode=mode)
+            # if mode in ["replace", "insert"]:
+            #     self.safe_call(self.ctrl.play_index, 0, get_response=False)
+            return self.resp_from_data({"message": "ok"})
         else:
             return self.resp_from_data(
                 {"message": f"No such folder found: '{folder}'"}, 404)
