@@ -1,6 +1,6 @@
 .git/
-/venv/
 __pycache__
-core/
-compose/venv/
-
+local/venv
+local/app
+core/service
+core/venv/
